@@ -6,6 +6,10 @@ function ToDo() {
 		setList([...list, inputValue]);
 		setInput('');
 	}
+	function handleDelete(index) {
+		const filtered = list.filter((item, i) => i !== index);
+		setList(filtered);
+	}
 	console.log(list);
 	return (
 		<div>
@@ -19,7 +23,15 @@ function ToDo() {
 			<button onClick={handleList}>+</button>
 			<ul>
 				{list.map((item, index) => {
-					return <li key={index}>{item}</li>;
+					return (
+						<li key={index}>
+							{item}
+							{/* <button onClick={handleModify}>Modify</button> */}
+							<button onClick={() => handleDelete(index)}>
+								❌
+							</button>
+						</li>
+					);
 				})}
 
 				{/* if you want an implicit return use () instead of {} cuz if you
