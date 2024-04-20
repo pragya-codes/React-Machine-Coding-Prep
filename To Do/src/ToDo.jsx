@@ -2,6 +2,9 @@ import { useState } from 'react';
 function ToDo() {
 	const [list, setList] = useState([]);
 	const [inputValue, setInput] = useState('');
+	const [editIndex, setEditIndex] = useState(null);
+	const [updateValue, setUpdate] = useState('');
+
 	function handleList() {
 		setList([...list, inputValue]);
 		setInput('');
@@ -9,6 +12,16 @@ function ToDo() {
 	function handleDelete(index) {
 		const filtered = list.filter((item, i) => i !== index);
 		setList(filtered);
+	}
+	function handleModify(index) {
+		setEditIndex(index);
+	}
+	function handleSave() {
+		const updated = [...list];
+		updated[editIndex] = updateValue;
+		setList(updated);
+		setEditIndex(null);
+		setUpdate('');
 	}
 	console.log(list);
 	return (
@@ -25,11 +38,33 @@ function ToDo() {
 				{list.map((item, index) => {
 					return (
 						<li key={index}>
-							{item}
-							{/* <button onClick={handleModify}>Modify</button> */}
-							<button onClick={() => handleDelete(index)}>
-								❌
-							</button>
+							{editIndex === index ? (
+								<>
+									<input
+										type="text"
+										value={updateValue}
+										onChange={(e) =>
+											setUpdate(e.target.value)
+										}
+									></input>
+									<button onClick={() => handleSave(index)}>
+										Save
+									</button>
+									<button onClick={() => handleDelete(index)}>
+										❌
+									</button>
+								</>
+							) : (
+								<>
+									{item}
+									<button onClick={() => handleModify(index)}>
+										Modify
+									</button>
+									<button onClick={() => handleDelete(index)}>
+										❌
+									</button>
+								</>
+							)}
 						</li>
 					);
 				})}
