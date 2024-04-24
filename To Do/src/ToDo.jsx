@@ -9,13 +9,16 @@ function ToDo() {
 		setList([...list, inputValue]);
 		setInput('');
 	}
+
 	function handleDelete(index) {
 		const filtered = list.filter((item, i) => i !== index);
 		setList(filtered);
 	}
+
 	function handleModify(index) {
 		setEditIndex(index);
 	}
+
 	function handleSave() {
 		const updated = [...list];
 		updated[editIndex] = updateValue;
@@ -23,10 +26,12 @@ function ToDo() {
 		setEditIndex(null);
 		setUpdate('');
 	}
-	console.log(list);
+
+	// console.log(list);
+
 	return (
 		<div>
-			ToDo
+			<h1>TO DO</h1>
 			<input
 				type="text"
 				placeholder="Enter.."

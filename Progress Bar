@@ -1,0 +1,25 @@
+import styled from 'styled-components';
+
+const StyleWrapper = styled.div`
+	background-color: lightgrey;
+	width: 100%;
+	height: 20px;
+	border-radius: 5px;
+`;
+
+const StyleBar = styled.div`
+	background-color: green;
+	width: ${({ percent }) => percent}%;
+	height: 20px;
+	border-radius: 5px;
+`;
+
+const ProgressBar = ({ percent = 70 }) => {
+	return (
+		<StyleWrapper>
+			<StyleBar percent={percent}></StyleBar>
+		</StyleWrapper>
+	);
+};
+
+export default ProgressBar;
