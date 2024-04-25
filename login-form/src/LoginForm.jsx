@@ -5,7 +5,7 @@ const StyledContainer = styled.div`
 	font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI',
 		Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue',
 		sans-serif;
-	height: 100vh;
+	height: 300px;
 	width: 50%;
 	display: flex;
 	flex-direction: column;
@@ -56,24 +56,61 @@ export default function LoginForm() {
 
 	function validation(obj) {
 		const { username, email, password } = obj;
-
+		let regex =
+			/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@.#$!%*?&^])[A-Za-z\d@.#$!%*?&]{8,15}$/;
 		//username validation
 
 		if (username.length == 0) {
-			setErrValues({ ...errValues, errUser: 'Enter a username!' });
+			setErrValues((errValues) => ({
+				...errValues,
+				errUser: 'Enter a Username!',
+			}));
 		} else if (username.length <= 3 || username.length >= 15) {
 			setErrValues((errValues) => ({
 				...errValues,
 				errUser: 'Username should be between 3 to 15 characters only',
 			}));
+		} else {
+			setErrValues((errValues) => ({
+				...errValues,
+				errUser: '',
+			}));
 		}
 
 		//email id validation
-
-		if (!(email.includes('@') && email.includes('.'))) {
+		if (email.length == 0) {
+			setErrValues((errValues) => ({
+				...errValues,
+				errEmail: 'Enter an Email ID!',
+			}));
+		} else if (email.includes('@') && email.includes('.') !== true) {
 			setErrValues((errValues) => ({
 				...errValues,
 				errEmail: 'Enter a valid email ID!',
+			}));
+		} else {
+			setErrValues((errValues) => ({
+				...errValues,
+				errEmail: '',
+			}));
+		}
+
+		//password validaton
+		if (password.length == 0) {
+			setErrValues((errValues) => ({
+				...errValues,
+				errPass: 'Enter an Password',
+			}));
+		} else if (!password.match(regex)) {
+			//if(!regex.test(password))
+			setErrValues((errValues) => ({
+				...errValues,
+				errPass: `Your Password doesn't meet the criteria!`,
+			}));
+		} else {
+			setErrValues((errValues) => ({
+				...errValues,
+				errPass: '',
 			}));
 		}
 	}
@@ -118,6 +155,7 @@ export default function LoginForm() {
 								value={formValues.password}
 								onChange={handleChange}
 							></input>
+							<span>{errValues.errPass}</span>
 						</div>
 						<div>
 							<button>Submit</button>
