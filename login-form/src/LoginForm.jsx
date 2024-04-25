@@ -32,7 +32,7 @@ const StyledContainer = styled.div`
 	}
 `;
 
-function LoginForm() {
+export default function LoginForm() {
 	const [formValues, setFormValues] = useState({
 		username: '',
 		email: '',
@@ -58,16 +58,32 @@ function LoginForm() {
 		const { username, email, password } = obj;
 
 		//username validation
+
 		if (username.length == 0) {
 			setErrValues({ ...errValues, errUser: 'Enter a username!' });
 		} else if (username.length <= 3 || username.length >= 15) {
-			setErrValues({
+			setErrValues((errValues) => ({
 				...errValues,
 				errUser: 'Username should be between 3 to 15 characters only',
-			});
+			}));
+		}
+
+		//email id validation
+
+		if (!(email.includes('@') && email.includes('.'))) {
+			setErrValues((errValues) => ({
+				...errValues,
+				errEmail: 'Enter a valid email ID!',
+			}));
 		}
 	}
+	// one issue I faced was "Handling asynchronous setErrValues method".
+	// I was not using cb concept to update that method and calling it multiple times inside validation()
+	//so these async functions were getting batched together and the last value was overwriting
+	//so when i use Functional form and give prev stae as the the argument, React
+	//keeps in mind to update the state based on prev state value only.
 	console.log(formValues);
+
 	return (
 		<>
 			{errValues ? (
@@ -148,5 +164,3 @@ function LoginForm() {
 		</>
 	);
 }
-
-export default LoginForm;
