@@ -5,7 +5,7 @@ const StyledContainer = styled.div`
 	font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI',
 		Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue',
 		sans-serif;
-	height: 300px;
+	height: 400px;
 	width: 50%;
 	display: flex;
 	flex-direction: column;
@@ -22,6 +22,7 @@ const StyledContainer = styled.div`
 	.item {
 		display: flex;
 		flex-direction: column;
+		width: 200px;
 		padding-bottom: 10px;
 		margin: 0 20px;
 	}
@@ -29,6 +30,32 @@ const StyledContainer = styled.div`
 	span {
 		color: red;
 		font-size: 0.7rem;
+	}
+
+	//i faced sooooooo much difficulty centering this button bro..
+	//who will agree that i wrote this 200+ lines of code on my own!
+	.submit {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+
+	//color on validation
+	#user {
+		border-color: ${({ user }) => {
+			if (user) return 'red';
+		}};
+	}
+	#email {
+		border-color: ${({ email }) => {
+			if (email) return 'red';
+		}};
+	}
+
+	#pass {
+		border-color: ${({ pass }) => {
+			if (pass) return 'red';
+		}};
 	}
 `;
 
@@ -51,12 +78,13 @@ export default function LoginForm() {
 	function handleSubmit(e) {
 		e.preventDefault();
 		validation(formValues);
-		setFormValues({ username: '', email: '', password: '' });
+
+		// setFormValues({ username: '', email: '', password: '' });
 	}
 
 	function validation(obj) {
 		const { username, email, password } = obj;
-		let regex =
+		let passregex =
 			/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@.#$!%*?&^])[A-Za-z\d@.#$!%*?&]{8,15}$/;
 		//username validation
 
@@ -83,7 +111,7 @@ export default function LoginForm() {
 				...errValues,
 				errEmail: 'Enter an Email ID!',
 			}));
-		} else if (email.includes('@') && email.includes('.') !== true) {
+		} else if (!(email.includes('@') && email.includes('.'))) {
 			setErrValues((errValues) => ({
 				...errValues,
 				errEmail: 'Enter a valid email ID!',
@@ -101,7 +129,7 @@ export default function LoginForm() {
 				...errValues,
 				errPass: 'Enter an Password',
 			}));
-		} else if (!password.match(regex)) {
+		} else if (!password.match(passregex)) {
 			//if(!regex.test(password))
 			setErrValues((errValues) => ({
 				...errValues,
@@ -124,12 +152,17 @@ export default function LoginForm() {
 	return (
 		<>
 			{errValues ? (
-				<StyledContainer>
+				<StyledContainer
+					user={errValues.errUser}
+					email={errValues.errEmail}
+					pass={errValues.errPass}
+				>
 					<h1>LOGIN</h1>
 					<form onSubmit={handleSubmit}>
 						<div className="item">
 							<label>Username:</label>
 							<input
+								id="user"
 								type="text"
 								name="username"
 								value={formValues.username}
@@ -140,6 +173,7 @@ export default function LoginForm() {
 						<div className="item">
 							<label>Email ID:</label>
 							<input
+								id="email"
 								type="text"
 								name="email"
 								value={formValues.email}
@@ -150,6 +184,7 @@ export default function LoginForm() {
 						<div className="item">
 							<label>Password:</label>
 							<input
+								id="pass"
 								type="password"
 								name="password"
 								value={formValues.password}
@@ -157,7 +192,7 @@ export default function LoginForm() {
 							></input>
 							<span>{errValues.errPass}</span>
 						</div>
-						<div>
+						<div className="submit">
 							<button>Submit</button>
 						</div>
 					</form>
@@ -169,6 +204,7 @@ export default function LoginForm() {
 						<div className="item">
 							<label>Username:</label>
 							<input
+								id="user"
 								type="text"
 								name="username"
 								value={formValues.username}
@@ -178,6 +214,7 @@ export default function LoginForm() {
 						<div className="item">
 							<label>Email ID:</label>
 							<input
+								id="email"
 								type="text"
 								name="email"
 								value={formValues.email}
@@ -187,13 +224,14 @@ export default function LoginForm() {
 						<div className="item">
 							<label>Password:</label>
 							<input
+								id="pass"
 								type="password"
 								name="password"
 								value={formValues.password}
 								onChange={handleChange}
 							></input>
 						</div>
-						<div>
+						<div className="submit">
 							<button>Submit</button>
 						</div>
 					</form>
