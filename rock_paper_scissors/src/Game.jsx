@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react"
 
  function Game(){
-  const [userChoice, setUserChoice]= useState("")
-  const [oppChoice, setOppChoice] = useState("")
+  const [userChoice, setUserChoice]= useState("😊")
+  const [oppChoice, setOppChoice] = useState("😊")
   const [userScore, setUserScore] = useState(0)
   const [oppScore, setOppScore] = useState(0)
   const [tie, setTie]= useState(false)
-  const opp = ["R", "P", "S"]
+  const opp = ["ROCK", "PAPER", "SCISSORS"]
   
   function choice(arg){
     let random = Math.floor(Math.random()*3)
@@ -22,23 +22,24 @@ import { useEffect, useState } from "react"
 
     else
     {
+       setTie(false)
       switch(arg){
-        case "R":
-          if(newOpp==="P") 
+        case "ROCK":
+          if(newOpp==="PAPER") 
             {setOppScore((prev)=>prev+1)}
           else 
             {setUserScore((prev)=>prev+1)}
           break;
         
-        case "P":
-          if(newOpp==="R") 
+        case "PAPER":
+          if(newOpp==="ROCK") 
             {setUserScore((prev)=>prev+1)}
           else 
             {setOppScore((prev)=>prev+1)}
           break;
 
-        case "S":
-          if(newOpp==="R") 
+        case "SCISSORS":
+          if(newOpp==="ROCKS") 
             {setOppScore((prev)=>prev+1)}
           else 
             {setUserScore((prev)=>prev+1)}
@@ -49,20 +50,38 @@ import { useEffect, useState } from "react"
   }
     
   return (
-    <>
-        <div className="choose">
-        <button onClick={()=>choice("R")}>Rock 🗻</button>
-        <button onClick={()=>choice("P")}> Paper 📄</button>
-        <button onClick={()=>choice("S")}>Scissors ✂</button>
+    <div className="container bg-cyan-400 p-10 h-4/5 w-3/4 mt-28">
+  
+    <h1 className="text-4xl font-bold pb-3 text-center">ROCK PAPER SCISSORS!</h1>
+        <div className="p-4 flex justify-around">
+        <button className="bg-yellow-200 text-xl font-bold p-2 rounded-lg hover:bg-yellow-300 active:bg-black active:text-yellow-100" onClick={()=>choice("ROCK")}>Rock 🗻</button>
+
+        <button className="bg-yellow-200 text-xl font-bold p-2 rounded-lg hover:bg-yellow-300 active:bg-black active:text-yellow-100" onClick={()=>choice("PAPER")}> Paper 📄</button>
+
+        <button className="bg-yellow-200 text-xl font-bold p-2 rounded-lg hover:bg-yellow-300 active:bg-black active:text-yellow-100" onClick={()=>choice("SCISSORS")}>Scissors ✂</button>
       </div>
-      <div className="tie" style={tie? {display:"block"}:{display:"none"}}>Tie!</div>
-      <p>Your Choice:{userChoice}</p>
-      <p>Computer Choice:{oppChoice}</p>
-      <div className="score">
-        Your Score: {userScore}
-        Computer Score: {oppScore}
+
+      <div className="text-center text-xl font-bold" style={tie? {display:"block"}:{opacity:0}}>Tie!</div>
+      
+      <div className="p-3 border-2 border-black grid  grid-cols-2  ">
+        <div className="border-r-2 border-black text-xl font-bold">YOU</div>
+        <div className=" pl-3 text-xl font-bold">RIVAL</div>
+        <div className="border-r-2 border-black grid grid-cols-2 font-bold">
+          <p>Choice:</p>
+        <div>{userChoice}</div>
+        <div>Score:</div><
+            div>{userScore}</div>
+        
+        </div>
+        <div className=" pl-3 grid grid-cols-2 font-bold">
+          <p>Choice:</p>
+        <div>{oppChoice}</div>
+        <div>Score:</div>
+        <div>{oppScore}</div>
+        </div>
+        
       </div>
-    </>
+    </div>
   )
 }
 
