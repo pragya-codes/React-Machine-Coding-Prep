@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react"
 
  function Game(){
+  const [winner, setWinner]=useState("")
+  const [toggle,setToggle] = useState(true)
   const [userChoice, setUserChoice]= useState("😊")
   const [oppChoice, setOppChoice] = useState("😊")
   const [userScore, setUserScore] = useState(0)
@@ -48,20 +50,40 @@ import { useEffect, useState } from "react"
   }
 
   }
-    
+  
+  function endgame(){
+    setToggle(false)
+    if(userScore>oppScore){
+        setWinner("YOU")
+      } else if(userScore===oppScore){
+        setWinner("TIE - NOBODY")
+      } else{
+        setWinner("RIVAL")
+      }
+  }
+
+  function reset(){
+  setWinner("")
+  setToggle(true)
+  setUserChoice("😊")
+  setOppChoice("😊")
+  setUserScore(0)
+  setOppScore(0)
+  setTie(false)
+  }
   return (
-    <div className="container bg-cyan-400 p-10 h-4/5 w-3/4 mt-28">
+    <div className="container bg-cyan-400 p-10 h-4/5 w-3/4 mt-28 rounded-3xl">
   
     <h1 className="text-4xl font-bold pb-3 text-center">ROCK PAPER SCISSORS!</h1>
         <div className="p-4 flex justify-around">
-        <button className="bg-yellow-200 text-xl font-bold p-2 rounded-lg hover:bg-yellow-300 active:bg-black active:text-yellow-100" onClick={()=>choice("ROCK")}>Rock 🗻</button>
+        <button className="bg-yellow-200 text-xl font-bold w-1/4 p-2 rounded-lg hover:bg-yellow-300 active:bg-black active:text-yellow-100 cursor-pointer" onClick={()=>choice("ROCK")}>Rock 🗻</button>
 
-        <button className="bg-yellow-200 text-xl font-bold p-2 rounded-lg hover:bg-yellow-300 active:bg-black active:text-yellow-100" onClick={()=>choice("PAPER")}> Paper 📄</button>
+        <button className="bg-yellow-200 text-xl font-bold w-1/4 p-2 rounded-lg hover:bg-yellow-300 active:bg-black active:text-yellow-100 cursor-pointer" onClick={()=>choice("PAPER")}> Paper 📄</button>
 
-        <button className="bg-yellow-200 text-xl font-bold p-2 rounded-lg hover:bg-yellow-300 active:bg-black active:text-yellow-100" onClick={()=>choice("SCISSORS")}>Scissors ✂</button>
+        <button className="bg-yellow-200 text-xl font-bold w-1/4 p-2 rounded-lg hover:bg-yellow-300 active:bg-black active:text-yellow-100 cursor-pointer" onClick={()=>choice("SCISSORS")}>Scissors ✂</button>
       </div>
 
-      <div className="text-center text-xl font-bold" style={tie? {display:"block"}:{opacity:0}}>Tie!</div>
+      <div className="text-center text-xl font-bold bg-black text-yellow-300" style={tie? {display:"block"}:{opacity:0}}>Tie!</div>
       
       <div className="p-3 border-2 border-black grid  grid-cols-2  ">
         <div className="border-r-2 border-black text-xl font-bold">YOU</div>
@@ -81,6 +103,12 @@ import { useEffect, useState } from "react"
         </div>
         
       </div>
+      {toggle?<div className="text-center text-xl font-bold bg-black text-yellow-300 cursor-pointer" onClick={endgame}>END GAME</div>
+      :       
+      <div className="flex flex-col">
+      <div className="text-center text-xl font-bold bg-black text-yellow-300" >{winner} WON !!</div>
+      <div className="text-center text-xl font-bold text-black bg-yellow-300 cursor-pointer" onClick={reset}>PLAY AGAIN?</div>
+      </div>}
     </div>
   )
 }
