@@ -24,25 +24,30 @@ function checkWinner(){
   return false;
 }
 
+function handleClick(index) {
+    if (cell[index] !== null || winner) return
 
-function handleClick(index){
- // setCell(cell[index]="X")//mutating state directly hence didnt work
-if(cell[index]!==null || winner) return
+    const cellCopy = Array.from(cell)
+    cellCopy[index] = curr
 
- const cellCopy = Array.from(cell)
- cellCopy[index]=curr
- const win = checkWinner()
- if (win){
-  setWinner(win)
-  setToggle(true)
-  return 
- } 
+    const win = checkWinner(cellCopy)
+    setCell(cellCopy)
 
- setCell(cellCopy)
- setCurr(curr==="X"? "0":"X")
+    if (win) {
+      setWinner(win)
+      setToggle(true)
+      return
+    }
 
- 
-}
+    if (!cellCopy.includes(null)) {
+      setWinner("DRAW - NOBODY")
+      setToggle(true)
+      return
+    }
+    
+    setCurr(curr === "X" ? "O" : "X")
+  }
+
 
 function handleReset(){
 setWinner("")
@@ -52,7 +57,7 @@ setToggle(false)
 }
 
 function Block({onClick, value}){
-    return <div className="h-28 flex justify-center items-center border-2 border-black font-bold text-xl  hover:bg-yellow-500 hover:text-black  active:bg-black active:text-white" onClick={onClick}>
+    return <div className="h-28 flex justify-center items-center border-2 border-black font-bold text-3xl  hover:bg-yellow-500 hover:text-black  active:bg-black active:text-white" onClick={onClick}>
      {value}
     </div>
   }
@@ -61,7 +66,7 @@ function Block({onClick, value}){
       <h1 className="pt-10 text-4xl font-bold text-center">
       Tic Tac Toe
     </h1>
-    {toggle?<p className="text-red-600  text-center font-extrabold p-4 text-xl">PLAYER - {winner} has WON! 💯</p>: <p className="text-center font-bold p-4">Next Player : {curr}</p>}
+    {toggle?<p className="text-red-600  text-center font-extrabold p-4 text-2xl">{winner} has WON!</p>: <p className="text-center font-bold p-4 text-xl">Next Player : {curr}</p>}
     <div className="mt-3 mx-auto w-96 grid grid-cols-3 ">
       <Block onClick={()=>handleClick(0)} value={cell[0]}/>
       <Block onClick={()=>handleClick(1)} value={cell[1]}/>
