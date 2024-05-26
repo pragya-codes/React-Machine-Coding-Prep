@@ -1,0 +1,32 @@
+*{
+  box-sizing: border-box;
+  font-family:Verdana, Geneva, Tahoma, sans-serif
+}
+.container{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: max-content;
+  width: 70%;
+  background: yellow;
+  margin: auto;
+  margin-top: 5%;
+  padding: 30px 50px;
+  text-align: center;
+  gap:10px;
+  border-radius: 100px;
+  box-shadow: 5px 10px 30px rgb(160, 160, 160);
+}
+
+.show{
+ 
+  all:unset;
+  border: 1px black solid;
+  padding: 10px 20px;
+}
+.show:hover{
+  background: #000;
+  color:white;
+ 
+}
